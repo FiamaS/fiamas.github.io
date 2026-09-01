@@ -1,43 +1,183 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Mi primera actividad</title>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiama Soriano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde: #2F4F3E;
+    --verde-osc: #223A2D;
+    --hueso: #F2EDE4;
+    --terracota: #C7714F;
+    --dorado: #B89968;
+  }
 
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--verde);
+    color: var(--hueso);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6vh 6vw;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* textura sutil de fondo, orgánica en vez de un gradiente genérico */
+  body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(184,153,104,0.12), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(199,113,79,0.10), transparent 45%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .contenedor{
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    text-align: center;
+  }
+
+  .saludo{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: var(--dorado);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: aparecer 0.8s ease forwards;
+  }
+
+  h1{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.08;
+    color: var(--hueso);
+    opacity: 0;
+    animation: aparecer 0.9s ease forwards 0.15s;
+  }
+
+  h1 span{
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terracota);
+    font-size: clamp(2rem, 5.2vw, 3.4rem);
+    margin-top: 0.15em;
+  }
+
+  .trazo{
+    width: 92px;
+    height: 3px;
+    background: var(--terracota);
+    border-radius: 2px;
+    margin: 2.2rem auto;
+    opacity: 0;
+    animation: crecer 0.7s ease forwards 0.55s;
+    transform-origin: center;
+  }
+
+  .bajada{
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: rgba(242,237,228,0.82);
+    max-width: 480px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: aparecer 0.9s ease forwards 0.4s;
+  }
+
+  .enlaces{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    justify-content: center;
+    opacity: 0;
+    animation: aparecer 0.9s ease forwards 0.6s;
+  }
+
+  .enlaces a{
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: var(--hueso);
+    border: 1px solid rgba(242,237,228,0.35);
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+  }
+
+  .enlaces a.destacado{
+    background: var(--terracota);
+    border-color: var(--terracota);
+    color: var(--verde-osc);
+    font-weight: 600;
+  }
+
+  .enlaces a:hover{
+    transform: translateY(-2px);
+    border-color: var(--terracota);
+  }
+
+  .enlaces a.destacado:hover{
+    background: #d9835f;
+  }
+
+  @keyframes aparecer{
+    from{ opacity: 0; transform: translateY(10px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes crecer{
+    from{ opacity: 0; width: 0; }
+    to{ opacity: 1; width: 92px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .saludo, h1, .trazo, .bajada, .enlaces{
+      animation: none !important;
+      opacity: 1 !important;
+    }
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--dorado);
+    outline-offset: 3px;
+  }
+</style>
+</head>
 <body>
 
-    <h1>Comunicación en Salud</h1>
-
-    <h2>Actividad 1</h2>
-
-    <p>¿Cuál de estas situaciones representa una barrera de comunicación?</p>
-
-    <button onclick="respuesta(false)">
-        El profesional utiliza lenguaje claro
-    </button>
-
-    <button onclick="respuesta(true)">
-        El profesional utiliza términos técnicos que el paciente no comprende
-    </button>
-
-    <button onclick="respuesta(false)">
-        El profesional verifica si el paciente comprendió
-    </button>
-
-    <p id="resultado"></p>
-
-    <script>
-        function respuesta(correcta) {
-            if (correcta) {
-                document.getElementById("resultado").innerHTML =
-                    "✅ ¡Correcto! El uso de términos que el paciente no comprende puede convertirse en una barrera de comunicación.";
-            } else {
-                document.getElementById("resultado").innerHTML =
-                    "❌ No es la opción correcta. Pensá en qué situación puede dificultar la comprensión del paciente.";
-            }
-        }
-    </script>
+  <main class="contenedor">
+    <p class="saludo">Portfolio digital · Docencia y comunicación</p>
+    <h1>Bienvenidos al sitio interactivo de<span>Fiama Soriano</span></h1>
+    <div class="trazo"></div>
+    <p class="bajada">
+      Un espacio para compartir materiales de cátedra, proyectos de comunicación en salud
+      y recursos sobre enseñanza en entornos virtuales.
+    </p>
+    <nav class="enlaces">
+      <a href="#" class="destacado">Materiales de cátedra</a>
+      <a href="#">Proyectos</a>
+      <a href="#">Contacto</a>
+    </nav>
+  </main>
 
 </body>
 </html>
