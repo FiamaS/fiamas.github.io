@@ -1,0 +1,814 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Repaso - Comunicación en Salud</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eef4ff, #f5efff);
+            color: #263238;
+            min-height: 100vh;
+        }
+
+        .contenedor {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 30px 20px 50px;
+        }
+
+        .encabezado {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(50, 50, 80, 0.10);
+            text-align: center;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            background: #e8e0ff;
+            color: #6547a5;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            margin: 5px 0 10px;
+            color: #40316b;
+            font-size: 32px;
+        }
+
+        .subtitulo {
+            margin: 0 auto;
+            max-width: 650px;
+            line-height: 1.6;
+            color: #5f6368;
+            font-size: 17px;
+        }
+
+        .progreso-contenedor {
+            margin-top: 25px;
+        }
+
+        .progreso-texto {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 7px;
+        }
+
+        .barra {
+            height: 10px;
+            background: #e3e3e3;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .barra-progreso {
+            height: 100%;
+            width: 0%;
+            background: #7560b5;
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(50, 50, 80, 0.10);
+        }
+
+        .numero {
+            color: #7560b5;
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .situacion {
+            background: #f7f5fc;
+            border-left: 5px solid #7560b5;
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .pregunta {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 18px;
+            line-height: 1.4;
+        }
+
+        .opciones {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .opcion {
+            width: 100%;
+            text-align: left;
+            padding: 16px 18px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        .opcion:hover {
+            border-color: #7560b5;
+            background: #faf9ff;
+            transform: translateY(-1px);
+        }
+
+        .opcion.correcta {
+            border-color: #4caf50;
+            background: #edf8ee;
+        }
+
+        .opcion.incorrecta {
+            border-color: #e57373;
+            background: #fff0f0;
+        }
+
+        .opcion:disabled {
+            cursor: default;
+        }
+
+        .retroalimentacion {
+            display: none;
+            margin-top: 22px;
+            padding: 20px;
+            border-radius: 12px;
+            line-height: 1.6;
+        }
+
+        .retroalimentacion.correcta {
+            display: block;
+            background: #edf8ee;
+            border: 1px solid #b7dfb9;
+        }
+
+        .retroalimentacion.incorrecta {
+            display: block;
+            background: #fff3f3;
+            border: 1px solid #f0b6b6;
+        }
+
+        .retro-titulo {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .boton-siguiente {
+            display: none;
+            margin-top: 22px;
+            padding: 13px 24px;
+            border: none;
+            border-radius: 10px;
+            background: #7560b5;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .boton-siguiente:hover {
+            background: #604b9b;
+        }
+
+        .resultado {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(50, 50, 80, 0.10);
+        }
+
+        .resultado h2 {
+            color: #40316b;
+            font-size: 28px;
+            margin-top: 0;
+        }
+
+        .puntaje {
+            font-size: 48px;
+            font-weight: bold;
+            color: #7560b5;
+            margin: 15px 0;
+        }
+
+        .mensaje-final {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+
+        .boton-reiniciar {
+            padding: 13px 24px;
+            border: none;
+            border-radius: 10px;
+            background: #7560b5;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .pie {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+
+            .contenedor {
+                padding: 15px 12px 30px;
+            }
+
+            .encabezado,
+            .tarjeta,
+            .resultado {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .subtitulo {
+                font-size: 15px;
+            }
+
+            .situacion {
+                font-size: 15px;
+            }
+
+            .pregunta {
+                font-size: 17px;
+            }
+
+            .opcion {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <!-- ENCABEZADO -->
+
+    <div class="encabezado">
+
+        <div class="etiqueta">
+            UNIDAD 1 · REPASO
+        </div>
+
+        <h1>¿Qué está fallando en esta comunicación?</h1>
+
+        <p class="subtitulo">
+            Leé cada situación y elegí la opción que consideres más adecuada.
+            Después de responder recibirás una breve explicación.
+        </p>
+
+        <div class="progreso-contenedor">
+
+            <div class="progreso-texto">
+                <span id="textoProgreso">Situación 1 de 6</span>
+                <span id="porcentaje">0%</span>
+            </div>
+
+            <div class="barra">
+                <div class="barra-progreso" id="barraProgreso"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIVIDAD -->
+
+    <div class="tarjeta" id="actividad">
+
+        <div class="numero" id="numeroPregunta">
+            SITUACIÓN 1
+        </div>
+
+        <div class="situacion" id="situacion"></div>
+
+        <div class="pregunta" id="pregunta"></div>
+
+        <div class="opciones" id="opciones"></div>
+
+        <div id="retroalimentacion" class="retroalimentacion">
+
+            <div class="retro-titulo" id="retroTitulo"></div>
+
+            <div id="retroTexto"></div>
+
+        </div>
+
+        <button
+            class="boton-siguiente"
+            id="botonSiguiente"
+            onclick="siguientePregunta()">
+            Siguiente →
+        </button>
+
+    </div>
+
+
+    <!-- RESULTADO FINAL -->
+
+    <div class="resultado" id="resultado">
+
+        <h2>¡Terminaste el repaso!</h2>
+
+        <div class="puntaje" id="puntajeFinal">
+            0/6
+        </div>
+
+        <p class="mensaje-final" id="mensajeFinal"></p>
+
+        <button
+            class="boton-reiniciar"
+            onclick="reiniciarActividad()">
+            Volver a intentar
+        </button>
+
+    </div>
+
+
+    <div class="pie">
+        Comunicación en Salud · Actividad de repaso
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+    ==========================================================
+    PREGUNTAS
+    ==========================================================
+    */
+
+    const preguntas = [
+
+        {
+            situacion:
+            "Una paciente consulta por primera vez. El profesional le explica el procedimiento utilizando varios términos técnicos. La paciente asiente y dice que entendió, pero al salir le pregunta a otra persona qué significa lo que le dijeron.",
+
+            pregunta:
+            "¿Cuál es principalmente el problema de comunicación?",
+
+            opciones: [
+                "Falta de comunicación no verbal",
+                "Uso de un lenguaje poco adecuado al interlocutor",
+                "Falta de información por parte de la paciente",
+                "Exceso de empatía"
+            ],
+
+            correcta: 1,
+
+            retro:
+            "La dificultad está en la adecuación del lenguaje. Utilizar términos técnicos sin comprobar si la persona comprende puede convertirse en una barrera comunicacional. Comunicar no consiste solamente en transmitir información: también implica procurar que el mensaje pueda ser comprendido."
+        },
+
+
+        {
+            situacion:
+            "Durante una consulta, el paciente intenta explicar qué síntomas tiene. Mientras habla, el profesional mira constantemente la computadora, interrumpe varias veces y comienza a formular preguntas antes de que el paciente termine de explicar.",
+
+            pregunta:
+            "¿Qué aspecto de la comunicación debería revisarse principalmente?",
+
+            opciones: [
+                "La escucha activa",
+                "El volumen de la voz",
+                "La comunicación escrita",
+                "La cantidad de información proporcionada"
+            ],
+
+            correcta: 0,
+
+            retro:
+            "La escucha activa implica prestar atención al interlocutor, evitar interrupciones innecesarias y mostrar disposición para comprender lo que está expresando. Escuchar no es simplemente permanecer en silencio mientras la otra persona habla."
+        },
+
+
+        {
+            situacion:
+            "Un profesional le informa a una persona que debe realizar un estudio. Le explica rápidamente los pasos y luego pregunta: «¿Entendió?». La persona responde que sí, pero posteriormente realiza el procedimiento de manera incorrecta.",
+
+            pregunta:
+            "¿Qué podría haber hecho el profesional para favorecer la comprensión?",
+
+            opciones: [
+                "Dar todavía más información en menos tiempo",
+                "Pedirle a la persona que repita con sus propias palabras las indicaciones",
+                "Utilizar más terminología técnica",
+                "Evitar hacer preguntas para no incomodar"
+            ],
+
+            correcta: 1,
+
+            retro:
+            "Una respuesta afirmativa no siempre permite saber si el mensaje fue comprendido. Pedir a la persona que explique con sus propias palabras qué debe hacer permite verificar la comprensión y detectar posibles confusiones."
+        },
+
+
+        {
+            situacion:
+            "Una persona llega preocupada a una consulta. Mientras cuenta lo que le sucede, el profesional responde únicamente con datos técnicos y mantiene una expresión seria y distante. La información brindada es correcta, pero la persona siente que no fue escuchada.",
+
+            pregunta:
+            "¿Qué dimensión de la comunicación aparece especialmente comprometida?",
+
+            opciones: [
+                "La precisión de los datos",
+                "La dimensión interpersonal de la comunicación",
+                "La velocidad del mensaje",
+                "La comunicación escrita"
+            ],
+
+            correcta: 1,
+
+            retro:
+            "En salud, la comunicación también tiene una dimensión interpersonal. La manera de escuchar, responder, mirar y acompañar a la persona influye en cómo se desarrolla el encuentro. La información correcta es necesaria, pero no agota la comunicación."
+        },
+
+
+        {
+            situacion:
+            "En una sala de espera, un trabajador de salud llama a una persona por su diagnóstico en voz alta para que pase al consultorio.",
+
+            pregunta:
+            "¿Qué problema comunicacional puede identificarse en esta situación?",
+
+            opciones: [
+                "El mensaje es demasiado breve",
+                "No existe comunicación verbal",
+                "No se considera la privacidad de la persona",
+                "El trabajador utiliza un lenguaje demasiado sencillo"
+            ],
+
+            correcta: 2,
+
+            retro:
+            "La comunicación en salud también debe considerar aspectos éticos y de privacidad. Exponer información relacionada con la salud de una persona en un espacio público puede vulnerar su intimidad."
+        },
+
+
+        {
+            situacion:
+            "Un profesional explica una indicación y utiliza un tono de voz amable. Sin embargo, mientras la persona habla, evita mirarla, mantiene los brazos cruzados y revisa constantemente su teléfono.",
+
+            pregunta:
+            "¿Por qué esta situación puede generar una dificultad comunicacional?",
+
+            opciones: [
+                "Porque la comunicación depende exclusivamente de las palabras",
+                "Porque los elementos no verbales también construyen el mensaje",
+                "Porque el tono amable siempre es incorrecto",
+                "Porque mirar al interlocutor no forma parte de la comunicación"
+            ],
+
+            correcta: 1,
+
+            retro:
+            "La comunicación no verbal acompaña, refuerza o incluso puede contradecir lo que se expresa verbalmente. La postura corporal, la mirada, los gestos y la atención que se presta al interlocutor forman parte del proceso comunicativo."
+        }
+
+    ];
+
+
+    /*
+    ==========================================================
+    VARIABLES
+    ==========================================================
+    */
+
+    let preguntaActual = 0;
+    let puntaje = 0;
+    let respondida = false;
+
+
+    /*
+    ==========================================================
+    MOSTRAR PREGUNTA
+    ==========================================================
+    */
+
+    function mostrarPregunta() {
+
+        respondida = false;
+
+        const datos = preguntas[preguntaActual];
+
+        document.getElementById("numeroPregunta").textContent =
+            "SITUACIÓN " + (preguntaActual + 1);
+
+        document.getElementById("situacion").textContent =
+            datos.situacion;
+
+        document.getElementById("pregunta").textContent =
+            datos.pregunta;
+
+        const opciones = document.getElementById("opciones");
+
+        opciones.innerHTML = "";
+
+        datos.opciones.forEach((opcion, indice) => {
+
+            const boton = document.createElement("button");
+
+            boton.className = "opcion";
+
+            boton.textContent = opcion;
+
+            boton.onclick = function () {
+                seleccionarRespuesta(indice);
+            };
+
+            opciones.appendChild(boton);
+
+        });
+
+        document.getElementById("retroalimentacion").style.display = "none";
+
+        document.getElementById("botonSiguiente").style.display = "none";
+
+        actualizarProgreso();
+    }
+
+
+    /*
+    ==========================================================
+    RESPUESTA
+    ==========================================================
+    */
+
+    function seleccionarRespuesta(indice) {
+
+        if (respondida) {
+            return;
+        }
+
+        respondida = true;
+
+        const datos = preguntas[preguntaActual];
+
+        const botones =
+            document.querySelectorAll(".opcion");
+
+        botones.forEach((boton, i) => {
+
+            boton.disabled = true;
+
+            if (i === datos.correcta) {
+                boton.classList.add("correcta");
+            }
+
+        });
+
+
+        const retro =
+            document.getElementById("retroalimentacion");
+
+        const retroTitulo =
+            document.getElementById("retroTitulo");
+
+        const retroTexto =
+            document.getElementById("retroTexto");
+
+
+        if (indice === datos.correcta) {
+
+            puntaje++;
+
+            retro.className =
+                "retroalimentacion correcta";
+
+            retroTitulo.textContent =
+                "✅ ¡Correcto!";
+
+        } else {
+
+            botones[indice].classList.add("incorrecta");
+
+            retro.className =
+                "retroalimentacion incorrecta";
+
+            retroTitulo.textContent =
+                "❌ Revisemos esta situación";
+
+        }
+
+
+        retroTexto.textContent =
+            datos.retro;
+
+
+        document.getElementById("botonSiguiente").style.display =
+            "inline-block";
+
+
+        if (preguntaActual === preguntas.length - 1) {
+
+            document.getElementById("botonSiguiente").textContent =
+                "Ver resultado →";
+
+        }
+
+    }
+
+
+    /*
+    ==========================================================
+    SIGUIENTE PREGUNTA
+    ==========================================================
+    */
+
+    function siguientePregunta() {
+
+        preguntaActual++;
+
+        if (preguntaActual < preguntas.length) {
+
+            mostrarPregunta();
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        } else {
+
+            mostrarResultado();
+
+        }
+
+    }
+
+
+    /*
+    ==========================================================
+    PROGRESO
+    ==========================================================
+    */
+
+    function actualizarProgreso() {
+
+        const total = preguntas.length;
+
+        const numero = preguntaActual + 1;
+
+        const porcentaje =
+            Math.round((preguntaActual / total) * 100);
+
+        document.getElementById("textoProgreso").textContent =
+            "Situación " + numero + " de " + total;
+
+        document.getElementById("porcentaje").textContent =
+            porcentaje + "%";
+
+        document.getElementById("barraProgreso").style.width =
+            porcentaje + "%";
+
+    }
+
+
+    /*
+    ==========================================================
+    RESULTADO
+    ==========================================================
+    */
+
+    function mostrarResultado() {
+
+        document.getElementById("actividad").style.display =
+            "none";
+
+        document.getElementById("resultado").style.display =
+            "block";
+
+        document.getElementById("barraProgreso").style.width =
+            "100%";
+
+        document.getElementById("porcentaje").textContent =
+            "100%";
+
+        document.getElementById("textoProgreso").textContent =
+            "Actividad completada";
+
+
+        document.getElementById("puntajeFinal").textContent =
+            puntaje + "/" + preguntas.length;
+
+
+        let mensaje = "";
+
+
+        if (puntaje === preguntas.length) {
+
+            mensaje =
+                "¡Excelente! Resolviste correctamente todas las situaciones. Tenés un muy buen manejo de los conceptos trabajados en esta unidad.";
+
+        } else if (puntaje >= 4) {
+
+            mensaje =
+                "¡Muy bien! La mayoría de tus respuestas fueron correctas. Te recomendamos revisar especialmente las situaciones en las que tuviste dudas.";
+
+        } else if (puntaje >= 3) {
+
+            mensaje =
+                "Vas por buen camino. Te conviene volver a revisar algunos conceptos de la unidad y prestar atención a las devoluciones de cada situación.";
+
+        } else {
+
+            mensaje =
+                "Este resultado indica que sería conveniente volver a recorrer los contenidos de la unidad antes de continuar. No te preocupes: podés realizar nuevamente la actividad.";
+
+        }
+
+
+        document.getElementById("mensajeFinal").textContent =
+            mensaje;
+
+    }
+
+
+    /*
+    ==========================================================
+    REINICIAR
+    ==========================================================
+    */
+
+    function reiniciarActividad() {
+
+        preguntaActual = 0;
+
+        puntaje = 0;
+
+        document.getElementById("actividad").style.display =
+            "block";
+
+        document.getElementById("resultado").style.display =
+            "none";
+
+        mostrarPregunta();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /*
+    ==========================================================
+    INICIAR
+    ==========================================================
+    */
+
+    mostrarPregunta();
+
+</script>
+
+</body>
+</html>
+```
