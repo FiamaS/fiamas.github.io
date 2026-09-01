@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi primera actividad</title>
+</head>
+
+<body>
+
+    <h1>Comunicación en Salud</h1>
+
+    <h2>Actividad 1</h2>
+
+    <p>¿Cuál de estas situaciones representa una barrera de comunicación?</p>
+
+    <button onclick="respuesta(false)">
+        El profesional utiliza lenguaje claro
+    </button>
+
+    <button onclick="respuesta(true)">
+        El profesional utiliza términos técnicos que el paciente no comprende
+    </button>
+
+    <button onclick="respuesta(false)">
+        El profesional verifica si el paciente comprendió
+    </button>
+
+    <p id="resultado"></p>
+
+    <script>
+        function respuesta(correcta) {
+            if (correcta) {
+                document.getElementById("resultado").innerHTML =
+                    "✅ ¡Correcto! El uso de términos que el paciente no comprende puede convertirse en una barrera de comunicación.";
+            } else {
+                document.getElementById("resultado").innerHTML =
+                    "❌ No es la opción correcta. Pensá en qué situación puede dificultar la comprensión del paciente.";
+            }
+        }
+    </script>
+
+</body>
+</html>
